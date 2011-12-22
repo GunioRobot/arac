@@ -13,25 +13,25 @@
 namespace arac {
 namespace structure {
 namespace modules {
-    
+
 ///
-/// A module is something that has input data and produces output data out of 
+/// A module is something that has input data and produces output data out of
 /// this. The inputs and outputs do not necessarily have to be of the same size.
-/// 
+///
 
 class Module : public arac::structure::Component
 {
     public:
 
         Module();
-        
+
         ///
         /// Create a new module and allocate the necessary buffers.
         ///
         Module(int insize, int outsize);
 
         ///
-        /// Destroy the module. 
+        /// Destroy the module.
 
         virtual ~Module();
 
@@ -39,7 +39,7 @@ class Module : public arac::structure::Component
         /// Interpret the input and produce the modules output by this.
         ///
         virtual void forward();
-    
+
         ///
         /// Add the contents at the given pointer to the input.
         ///
@@ -49,7 +49,7 @@ class Module : public arac::structure::Component
         /// Add the contents at the given pointer to the outerror.
         ///
         void add_to_outerror(double* addend_p);
-        
+
         ///
         /// Clear input, output, inerror and outerror by setting them to zero.
         ///
@@ -59,27 +59,27 @@ class Module : public arac::structure::Component
         /// Return a reference to the input Buffer.
         ///
         arac::common::Buffer& input();
-        
+
         ///
         /// Return a reference the output Buffer.
         ///
         arac::common::Buffer& output();
-        
+
         ///
         /// Return a reference to the inerror Buffer.
         ///
         arac::common::Buffer& inerror();
-        
+
         ///
         /// Return a reference to the outerror Buffer.
         ///
         arac::common::Buffer& outerror();
-        
+
         ///
         /// Return the input size of the module.
         ///
         int insize();
-        
+
         ///
         /// Return the output size of the module.
         ///
@@ -90,20 +90,20 @@ class Module : public arac::structure::Component
         ///
         bool last_timestep();
 
-        
+
     protected:
 
         ///
         /// Initialize all the buffers.
         ///
         virtual void init_buffers();
-        
+
         ///
-        /// Free the space used by the buffers. Do nothing if the buffers are 
+        /// Free the space used by the buffers. Do nothing if the buffers are
         /// not the owners of the memory.
         ///
         virtual void free_buffers();
-        
+
         ///
         /// Expand the size of all the buffers by one row.
         ///
@@ -111,7 +111,7 @@ class Module : public arac::structure::Component
 
         int _insize;
         int _outsize;
-        
+
         arac::common::Buffer* _input_p;
         arac::common::Buffer* _output_p;
         arac::common::Buffer* _inerror_p;
@@ -136,14 +136,14 @@ Module::outsize()
 
 
 inline
-bool 
+bool
 Module::last_timestep()
 {
     return (timestep() == _input_p->size());
 }
 
 
-inline 
+inline
 void
 Module::add_to_input(double* addend_p)
 {
@@ -151,7 +151,7 @@ Module::add_to_input(double* addend_p)
 }
 
 
-inline 
+inline
 void
 Module::add_to_outerror(double* addend_p)
 {
@@ -163,7 +163,7 @@ inline
 arac::common::Buffer&
 Module::input()
 {
-    return *_input_p; 
+    return *_input_p;
 }
 
 

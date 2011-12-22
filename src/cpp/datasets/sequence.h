@@ -12,19 +12,19 @@
 
 namespace arac {
 namespace datasets {
-    
 
-class Sequence 
+
+class Sequence
 {
     public:
-        
+
         Sequence(int length, int itemsize, double* data_p);
         virtual ~Sequence();
-        
+
         int length() const;
         int itemsize() const;
         double* operator[](int index);
-        
+
     private:
         int _length;
         int _itemsize;
@@ -32,7 +32,7 @@ class Sequence
 };
 
 
-inline 
+inline
 int
 Sequence::length() const
 {

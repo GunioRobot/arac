@@ -14,7 +14,7 @@ namespace arac {
 namespace structure {
 namespace connections {
 
-    
+
 using namespace arac::structure::modules;
 using arac::structure::Component;
 
@@ -23,13 +23,13 @@ using arac::structure::Component;
 /// An identity connection connects two modules by adding the output of the
 /// íncoming module to the input of the outgoing module.
 ///
-class IdentityConnection : public Connection 
+class IdentityConnection : public Connection
 {
     public:
-        
+
         ///
         /// Create a new IdentityConnection between two modules, where the
-        /// output size of the incoming module equals the input size of the 
+        /// output size of the incoming module equals the input size of the
         /// outgoing module.
         ///
         IdentityConnection(Module* incoming_p, Module* outgoing_p);
@@ -39,12 +39,12 @@ class IdentityConnection : public Connection
         /// be of the same length.
         ///
         IdentityConnection(Module* incoming_p, Module* outgoing_p,
-                           int incomingstart, int incomingstop, 
+                           int incomingstart, int incomingstop,
                            int outgoingstart, int outgoingstop);
         virtual ~IdentityConnection();
-    
+
     protected:
-        
+
         virtual void forward_process(double* sink_p, const double* source_p);
         virtual void backward_process(double* sink_p, const double* source_p);
 };

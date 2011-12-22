@@ -24,14 +24,14 @@ class TanhLayer : public Module
 {
     public:
 
-        /// 
+        ///
         /// Create a new TanhLayer object of the given size.
         ///
         TanhLayer(int size);
         virtual ~TanhLayer();
-        
+
     protected:
-        
+
         virtual void _forward();
         virtual void _backward();
 };
@@ -45,7 +45,7 @@ inline TanhLayer::TanhLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

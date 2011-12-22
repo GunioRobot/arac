@@ -32,7 +32,7 @@ void block_permutation(std::vector<int>& perm,
 
 
 ///
-/// Fill the sink with random values from the interval [-interval, interval]. 
+/// Fill the sink with random values from the interval [-interval, interval].
 /// interval defaults to 0.01.
 ///
 void fill_random(double* sink_p, int length, double interval = 0.01);
@@ -52,7 +52,7 @@ gradient_check(arac::structure::networks::BaseNetwork& network,
 /// Parametrized objects to the end of a vector.
 ///
 void
-parametrized_by_network(std::vector<arac::structure::Parametrized*>& params, 
+parametrized_by_network(std::vector<arac::structure::Parametrized*>& params,
                         arac::structure::networks::BaseNetwork& net);
 
 

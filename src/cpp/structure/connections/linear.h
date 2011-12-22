@@ -15,21 +15,21 @@ namespace arac {
 namespace structure {
 namespace connections {
 
-    
+
 using namespace arac::structure::modules;
 using arac::structure::Parametrized;
 
 
-/// 
-/// A LinearConnection is a parametrized connection which processes the input 
+///
+/// A LinearConnection is a parametrized connection which processes the input
 /// from the incoming module to the outgoing module by multiplying it with a
-/// specific parameter for each component.  
+/// specific parameter for each component.
 ///
 
 class LinearConnection : public Connection, public Parametrized
 {
-    public: 
-        
+    public:
+
         ///
         /// Create a new LinearConnection object. The outsize of the incoming
         /// module and the insize of the outgoing module have to be equal.
@@ -41,7 +41,7 @@ class LinearConnection : public Connection, public Parametrized
         /// length.
         ///
         LinearConnection(Module* incoming_p, Module* outgoing_p,
-                       int incomingstart, int incomingstop, 
+                       int incomingstart, int incomingstop,
                        int outgoingstart, int outgoingstop);
 
         ///
@@ -50,16 +50,16 @@ class LinearConnection : public Connection, public Parametrized
         ///
         LinearConnection(Module* incoming_p, Module* outgoing_p,
                        double* parameters_p, double* derivatives_p,
-                       int incomingstart, int incomingstop, 
+                       int incomingstart, int incomingstop,
                        int outgoingstart, int outgoingstop);
         virtual ~LinearConnection();
-        
+
     protected:
-        
+
         virtual void forward_process(double* sink_p, const double* source_p);
         virtual void backward_process(double* sink_p, const double* source_p);
-};    
-    
+};
+
 }
 }
 }

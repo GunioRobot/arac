@@ -31,10 +31,10 @@ namespace networks {
 namespace mdrnns {
 
 
-/// 
-/// Template class to implement a grid of modules in order to process 
+///
+/// Template class to implement a grid of modules in order to process
 /// multidimensional sequences.
-/// 
+///
 /// The networks is presented the whole input at once. It holds an internal
 /// structure of modules, which this input will be distributed to on activation.
 ///
@@ -43,8 +43,8 @@ template <class module_type>
 class Mdrnn : public BaseMdrnn
 {
     public:
-        
-        /// 
+
+        ///
         /// Create a new Mdrnn object for the given timedim with layers of size
         /// hiddensize.
         ///
@@ -55,7 +55,7 @@ class Mdrnn : public BaseMdrnn
         /// Set the length of the current sequence in the given dimension.
         ///
         void set_sequence_shape(int dim, int val);
-        
+
         ///
         /// Return the length of the current sequence in the given dimension.
         ///
@@ -71,7 +71,7 @@ class Mdrnn : public BaseMdrnn
         /// Set the shape of a block along the given dimension.
         ///
         void set_block_shape(int dim, int val);
-        
+
         ///
         /// Return the shape of a block along the given dimension.
         ///
@@ -82,90 +82,90 @@ class Mdrnn : public BaseMdrnn
         int blocksize();
 
         virtual void sort();
-        
+
         virtual void _forward();
-        
+
         virtual void _backward();
-        
+
         virtual void clear();
         virtual void clear_derivatives();
-        
+
         FullConnection& feedcon();
 
         FullConnection& biascon();
-        
+
     protected:
-        
+
         void init_multiplied_sizes();
-        
+
         ///
         /// Create the hidden module.
         ///
         void init_structure();
-        
+
         ///
         /// Free the memory held by internal structure.
         ///
         void delete_structure();
-        
+
         // FIXME: This should be done with integers!
         void next_coords(int* coords);
         void update_sizes();
-        
+
         int _hiddensize;
-        
+
         int _sequencelength;
         int _blocksize;
-        
+
         int* _sequence_shape_p;
         int* _block_shape_p;
-        
+
         ///
-        /// Size of the previous dimensions in memory; example: if a shape of 
+        /// Size of the previous dimensions in memory; example: if a shape of
         /// (4, 4, 4) is given, each element holds the product of the previous
-        /// dimensions: (1, 4, 16) with the special case of the first element 
+        /// dimensions: (1, 4, 16) with the special case of the first element
         /// being one.
         ///
         int* _multiplied_sizes_p;
-        
+
         ///
         /// Mdrnn Objects are constructed as follows. The ordinary data/error
         /// buffers are used. Internally, a new input layer is connected to a
-        /// mesh of modules which are connected with each other recurrently. 
+        /// mesh of modules which are connected with each other recurrently.
         ///
         // TODO: make this description better.
         // TODO: write getter/setter
-        arac::structure::modules::LinearLayer* _inmodule_p; 
-        module_type* _module_p; 
+        arac::structure::modules::LinearLayer* _inmodule_p;
+        module_type* _module_p;
         arac::structure::modules::Bias _bias;
-        
-        ///
-        /// The Connection object pointed at is supposed to connect _inmodule_p 
-        /// with _module_p. It feeds the input into the main module.
-        /// 
-        // TODO: write getter/setter
-        arac::structure::connections::FullConnection* _feedcon_p;           
 
-        /// 
+        ///
+        /// The Connection object pointed at is supposed to connect _inmodule_p
+        /// with _module_p. It feeds the input into the main module.
+        ///
+        // TODO: write getter/setter
+        arac::structure::connections::FullConnection* _feedcon_p;
+
+        ///
         /// The connection from the bias to _module_p.
-        /// 
-        arac::structure::connections::FullConnection* _biascon_p;           
+        ///
+        arac::structure::connections::FullConnection* _biascon_p;
 
         ///
         /// Return a reference to the held object of module_type.
         ///
         module_type& module();
-        
+
         ///
         /// Vector of vectors which is used to store the connections along the
-        /// differen time dimensions. It has exactly _timedim + 1 items, of 
-        /// which the last keeps connections that are invariant to the 
+        /// differen time dimensions. It has exactly _timedim + 1 items, of
+        /// which the last keeps connections that are invariant to the
         /// timedimensions.
         ///
         typedef std::vector<arac::structure::connections::Connection*> ConPtrVector;
         typedef std::vector<ConPtrVector> ConPtrVectorVector;
         ConPtrVectorVector _connections;
-        
+
         void init_con_vectors();
 };
 
@@ -215,10 +215,10 @@ Mdrnn<module_type>::set_block_shape(int dim, int val)
     {
         return;
     }
-    
+
     _dirty = true;
     _block_shape_p[dim] = val;
-    
+
     _blocksize = 1;
     for (int i = 0; i < _timedim; i++)
     {
@@ -285,7 +285,7 @@ Mdrnn<module_type>::next_coords(int* coords_p)
             coords_p[i] += 1;
             break;
         }
-        else 
+        else
         {
             coords_p[i] = 0;
         }
@@ -299,7 +299,7 @@ Mdrnn<module_type>::Mdrnn(int timedim, int hiddensize) :
     _hiddensize(hiddensize),
     _inmodule_p(0),
     _module_p(0),
-    _feedcon_p(0), 
+    _feedcon_p(0),
     _biascon_p(0)
 {
     _sequence_shape_p = new int[_timedim];
@@ -333,12 +333,12 @@ Mdrnn<module_type>::delete_structure()
     {
         delete _module_p;
     }
-    
+
     if (_inmodule_p != 0)
     {
         delete _inmodule_p;
     }
-    
+
     if (_feedcon_p != 0)
     {
         delete _feedcon_p;
@@ -348,7 +348,7 @@ Mdrnn<module_type>::delete_structure()
     {
         delete _biascon_p;
     }
-    
+
     ConPtrVectorVector::iterator con_vec_iter;
     ConPtrVector::iterator con_iter;
     for (con_vec_iter = _connections.begin();
@@ -388,13 +388,13 @@ Mdrnn<module_type>::update_sizes()
         _blocksize *= _block_shape_p[i];
     }
     assert(_blocksize > 0);
-    
+
     _sequencelength = 1;
     for (int i = 0; i < _timedim; i++)
     {
         _sequencelength *= _sequence_shape_p[i];
     }
-    
+
     _sequencelength /= _blocksize;
     _insize = _sequencelength * _blocksize;
     _outsize = _sequencelength * _hiddensize;
@@ -422,7 +422,7 @@ Mdrnn<module_type>::sort()
     // shape etc.
     init_multiplied_sizes();
     update_sizes();
-    
+
     delete_structure();
     init_structure();
     init_con_vectors();
@@ -440,7 +440,7 @@ Mdrnn<module_type>::sort()
         FullConnection* con_p = new FullConnection(_module_p, _module_p);
         con_p->set_mode(Component::Sequential);
         con_p->set_recurrent(recurrency);
-        // Multiply with the current blocks-per-dimension so that each 
+        // Multiply with the current blocks-per-dimension so that each
         // connections jumps over one dimension.
         recurrency *= _sequence_shape_p[i] / _block_shape_p[i];
         _connections[i].push_back(con_p);
@@ -449,7 +449,7 @@ Mdrnn<module_type>::sort()
 
     // Ininitialize buffers.
     init_buffers();
-    
+
     // Indicate that the net is ready for use.
     _dirty = false;
 }
@@ -458,7 +458,7 @@ template <class module_type>
 void
 Mdrnn<module_type>::clear()
 {
-    
+
     BaseMdrnn::clear();
     _bias.clear();
     _module_p->clear();
@@ -518,7 +518,7 @@ Mdrnn<module_type>::_forward()
                  con_iter != con_vec_iter->end();
                  con_iter++)
             {
-                // If the current coordinate is zero, we are at a border of the 
+                // If the current coordinate is zero, we are at a border of the
                 // input in that dimension. In that case, the connections may
                 // not be forwarded, since we don't want to look around corners.
                 // The bias, however, which is the last connection in the vector
@@ -548,8 +548,8 @@ Mdrnn<module_type>::_forward()
     // the states in the output layer.)
     for(int i = 0; i < sequencelength(); i++)
     {
-        memcpy(output()[timestep()] + i * _hiddensize, 
-               _module_p->output()[i], 
+        memcpy(output()[timestep()] + i * _hiddensize,
+               _module_p->output()[i],
                _hiddensize * sizeof(double));
     }
     delete[] coords_p;
@@ -596,8 +596,8 @@ Mdrnn<module_type>::_backward()
         _inmodule_p->add_to_input(input()[timestep() - 1] + i * blocksize());
         _inmodule_p->forward();
 
-        // We do not use add_to_outerror here, since this is broken for 
-        // MdlstmLayers: the second half of the MdlstmLayers should ne get an 
+        // We do not use add_to_outerror here, since this is broken for
+        // MdlstmLayers: the second half of the MdlstmLayers should ne get an
         // error signal since it's internal states.
         // TODO: this should be fixed, actually.
         double* mod_outerr_p = _module_p->outerror()[_module_p->timestep() - 1];

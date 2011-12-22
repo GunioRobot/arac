@@ -12,13 +12,13 @@
 
 namespace arac {
 namespace datasets {
-    
+
 typedef SupervisedDataset<arac::datasets::Sequence, arac::datasets::Sequence> SupervisedSequentialDataset;
 typedef SupervisedDataset<arac::datasets::Sequence, double*> SupervisedSemiSequentialDataset;
 typedef SupervisedDataset<double*, double*> SupervisedSimpleDataset;
 typedef UnsupervisedDataset<double*> UnsupervisedSimpleDataset;
 typedef UnsupervisedDataset<arac::datasets::Sequence> UnsupervisedSequenceDataset;
-    
+
 } } // Namespace
 
 

@@ -27,7 +27,7 @@ class CosineLayer : public Module
 {
     public:
 
-        /// 
+        ///
         /// Create a CosineLayer object of the given size.
         ///
         CosineLayer(int size);

@@ -14,10 +14,10 @@ using namespace arac::datasets;
 
 
 namespace arac {
-    
+
 namespace utilities {
-    
-    
+
+
 void
 print_array(const double* array, int length)
 {
@@ -26,8 +26,8 @@ print_array(const double* array, int length)
         std::cout << array[i] << " ";
     }
 }
-    
-    
+
+
 void
 print_parameters(arac::structure::networks::BaseNetwork& net)
 {
@@ -49,7 +49,7 @@ print_derivatives(arac::structure::networks::BaseNetwork& net)
         param_p_iter != net.parametrizeds().end();
         param_p_iter++)
     {
-        print_array((*param_p_iter)->get_derivatives(), 
+        print_array((*param_p_iter)->get_derivatives(),
                     (*param_p_iter)->size());
     }
 }
@@ -70,25 +70,25 @@ print_activations(BaseNetwork& net, SupervisedDataset<double*, double*>& ds)
         {
             error_p[j] = target_p[j] - prediction_p[j];
         }
-        
+
         std::cout << "Input: ";
         print_array(input_p, ds.samplesize());
 
         std::cout << std::endl << "Target: ";
         print_array(target_p, ds.targetsize());
-        
+
         std::cout << std::endl << "Prediction: ";
         print_array(prediction_p, net.outsize());
-        
+
         std::cout << std::endl << "Error: ";
         print_array(error_p, net.outsize());
-        
+
         std::cout << std::endl << std::endl;
     }
 }
 
 
-void block_permutation(std::vector<int>& perm, 
+void block_permutation(std::vector<int>& perm,
                        std::vector<int>& sequence_shape,
                        std::vector<int>& block_shape)
 {
@@ -99,7 +99,7 @@ void block_permutation(std::vector<int>& perm,
     }
 
     int dim = sequence_shape.size();
-    
+
     // Make a vector that contains the multiplied sizes of previous dimensions.
     std::vector<int> shape_dims;
     shape_dims.push_back(1);
@@ -107,9 +107,9 @@ void block_permutation(std::vector<int>& perm,
     {
         shape_dims.push_back(shape_dims[i] * sequence_shape[i]);
     }
-    
+
     int& length = shape_dims.back();
-    
+
     std::vector< std::vector<int> > coords;
     for(int i = dim - 1; i >= 0; i--)
     {
@@ -127,16 +127,16 @@ void block_permutation(std::vector<int>& perm,
         }
         coords.push_back(this_dims);
     }
-    
+
     int n_blocks = 1;
     std::vector<int>::iterator intiter, intiter_;
-    for (intiter = sequence_shape.begin(), intiter_ = block_shape.begin(); 
+    for (intiter = sequence_shape.begin(), intiter_ = block_shape.begin();
          intiter != sequence_shape.end();
          intiter++, intiter_++)
     {
         n_blocks *=  *intiter / *intiter_;
     }
-    
+
     std::vector< std::vector<int> > blocks;
     blocks.reserve(n_blocks);
     for (int i = 0; i < n_blocks; i++)
@@ -144,14 +144,14 @@ void block_permutation(std::vector<int>& perm,
         std::vector<int> empty;
         blocks.push_back(empty);
     }
-    
+
     std::vector<int> block_dims;
     block_dims.push_back(1);
     for (int i = 0; i < dim; i++)
     {
         block_dims.push_back(block_dims[i] * block_shape[i]);
     }
-    
+
     for(int i = 0; i < length; i++)
     {
         int block_index = 0;
@@ -162,7 +162,7 @@ void block_permutation(std::vector<int>& perm,
         }
         blocks[block_index].push_back(i);
     }
-    
+
     std::vector< std::vector<int> >::iterator intveciter;
     for (intveciter = blocks.begin();
          intveciter != blocks.end();
@@ -175,7 +175,7 @@ void block_permutation(std::vector<int>& perm,
             perm.push_back(*intiter);
         }
     }
-}                      
+}
 
 // TODO: use better rng, like mt from tr1 or sth.
 static int count = 0;
@@ -194,7 +194,7 @@ void fill_random(double* sink_p, int length, double interval)
 
 
 void
-addscale(const double* first_p, const double* second_p, double* sink_p, 
+addscale(const double* first_p, const double* second_p, double* sink_p,
          size_t length, double scale)
 {
     for (int i = 0; i < length; i++)
@@ -204,7 +204,7 @@ addscale(const double* first_p, const double* second_p, double* sink_p,
 }
 
 
-void 
+void
 square(double* target_p, size_t length)
 {
     for (int i = 0; i < length; i++)
@@ -230,7 +230,7 @@ void
 parametrized_by_network(std::vector<Parametrized*>& params, BaseNetwork& net)
 {
     std::vector<BaseNetwork*>::iterator net_iter;
-    
+
     for (net_iter = net.networks().begin();
          net_iter != net.networks().end();
          net_iter++)
@@ -253,7 +253,7 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
 {
     int insize = network.insize();
     int outsize = network.outsize();
-    
+
     // Build up an appropriate input.
     double* input_p = new double[insize];
     double* target_p = new double[outsize];
@@ -261,7 +261,7 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
     double* error_p = new double[outsize];
     fill_random(input_p, insize, 2.5);
     fill_random(target_p, outsize, 2.5);
-    
+
     double epsilon = 1e-5;
     double biggest = 0.0;
 
@@ -269,14 +269,14 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
     double param_deriv;
     // The derivative as computed numerically.
     double numeric_deriv;
-    
-    // Hold pointers to all Parametrized objects here to check them 
+
+    // Hold pointers to all Parametrized objects here to check them
     // sequentially.
     std::vector<Parametrized*> params;
     parametrized_by_network(params, network);
 
     std::vector<arac::structure::Parametrized*>::iterator param_iter;
-    // Now iterate over all parametrized objects in order to play with every 
+    // Now iterate over all parametrized objects in order to play with every
     // parameter to check derivative correctness.
     for (param_iter = params.begin();
          param_iter != params.end();
@@ -295,17 +295,17 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
             network.clear();
             network.clear_derivatives();
             result_p = network.activate(input_p);
-            
+
             addscale(target_p, result_p, error_p, outsize, -1);
-            
+
             network.back_activate(error_p);
             param_deriv = parametrized.get_derivatives()[i];
-            
+
             network.clear();
 
             // Calculate point to the right of the target.
             param = old_param + epsilon;
-            
+
             result_p = network.activate(input_p);
             addscale(target_p, result_p, error_p, outsize, -1);
             square(error_p, outsize);
@@ -313,7 +313,7 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
             double righterror = 0.5 * sum(error_p, outsize);
 
             network.clear();
-            
+
             // Calculate point to the left of the target.
             param = old_param - epsilon;
 
@@ -326,8 +326,8 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
             numeric_deriv = (righterror - lefterror) / (epsilon * -2);
             if (verbose)
             {
-              std::cout << "Numeric/Analytical:" << numeric_deriv 
-                        << " <-> " 
+              std::cout << "Numeric/Analytical:" << numeric_deriv
+                        << " <-> "
                         << param_deriv
                         << std::endl;
             }
@@ -340,7 +340,7 @@ gradient_check_nonsequential(BaseNetwork& network, bool verbose)
             param = old_param;
         }
     }
-    
+
     return biggest;
 }
 

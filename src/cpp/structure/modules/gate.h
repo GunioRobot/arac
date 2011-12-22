@@ -30,8 +30,8 @@ class GateLayer : public Module
         /// Create a new GateLayer object of the gíven size.
         ///
         GateLayer(int size);
-        
-        /// 
+
+        ///
         /// Destroy the GateLayer object.
         ///
         virtual ~GateLayer();
@@ -51,7 +51,7 @@ inline GateLayer::GateLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

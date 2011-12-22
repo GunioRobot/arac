@@ -14,7 +14,7 @@ namespace arac {
 namespace structure {
 namespace connections {
 
-    
+
 using namespace arac::structure::modules;
 
 
@@ -24,41 +24,41 @@ using namespace arac::structure::modules;
 
 class PermutationConnection : public Connection
 {
-    public: 
-   
+    public:
+
         ///
         /// Create a new PermutationConnection object.
         ///
         PermutationConnection(Module* incoming_p, Module* outgoing_p);
-        
-        PermutationConnection(Module* incoming_p, Module* outgoing_p, 
+
+        PermutationConnection(Module* incoming_p, Module* outgoing_p,
                               std::vector<int> permutation);
 
-        ///            
+        ///
         /// Destroy the PermutationConnection object.
         ///
         virtual ~PermutationConnection();
-        
+
         const std::vector<int>& permutation() const;
         std::vector<int>& permutation();
-        
+
         void set_permutation(std::vector<int> perm);
-        
+
         ///
         /// Invert the current permutation.
         ///
         void invert();
-        
+
     protected:
         std::vector<int> _permutation;
-        
+
         void forward_process(double* sink_p, const double* source_p);
         void backward_process(double* sink_p, const double* source_p);
-};    
+};
 
 
 inline
-const std::vector<int>& 
+const std::vector<int>&
 PermutationConnection::permutation() const
 {
     return _permutation;
@@ -66,7 +66,7 @@ PermutationConnection::permutation() const
 
 
 inline
-std::vector<int>& 
+std::vector<int>&
 PermutationConnection::permutation()
 {
     return _permutation;
@@ -81,7 +81,7 @@ PermutationConnection::set_permutation(std::vector<int> permutation)
     _permutation = permutation;
 }
 
-    
+
 }
 }
 }

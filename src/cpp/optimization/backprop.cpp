@@ -15,10 +15,10 @@ using arac::optimization::SequentialBackprop;
 using arac::structure::Parametrized;
 
 
-SimpleBackprop::SimpleBackprop(BaseNetwork& network, 
+SimpleBackprop::SimpleBackprop(BaseNetwork& network,
                SupervisedDataset<double*, double*>& dataset) :
-               Backprop<double*, double*>(network, dataset) {}   
-           
+               Backprop<double*, double*>(network, dataset) {}
+
 SimpleBackprop::~SimpleBackprop() {}
 
 
@@ -50,7 +50,7 @@ SimpleBackprop::process_sample(double* sample_p, double* target_p,
 SemiSequentialBackprop::SemiSequentialBackprop(
     BaseNetwork& network,
     SupervisedDataset<Sequence, double*>& dataset) :
-    Backprop<Sequence, double*>(network, dataset) 
+    Backprop<Sequence, double*>(network, dataset)
 {
     _output_p = new double[dataset.targetsize()];
 }
@@ -68,7 +68,7 @@ SemiSequentialBackprop::process_sample(Sequence input, double* target_p)
     for (int i = 0; i < input.length(); i++)
     {
         const double* output_p = network().activate(input[i]);
-        // Sum the outputs 
+        // Sum the outputs
         for (int j = 0; j < dataset().targetsize(); j++)
         {
             _output_p[j] += output_p[j];
@@ -88,7 +88,7 @@ SemiSequentialBackprop::process_sample(Sequence input, double* target_p)
 
 
 void
-SemiSequentialBackprop::process_sample(Sequence input, double* target_p, 
+SemiSequentialBackprop::process_sample(Sequence input, double* target_p,
                                        double* importance_p)
 {
     memset(_output_p, 0, sizeof(double) * dataset().targetsize());
@@ -97,7 +97,7 @@ SemiSequentialBackprop::process_sample(Sequence input, double* target_p,
     for (int i = 0; i < input.length(); i++)
     {
         const double* output_p = network().activate(input[i]);
-        // Sum the outputs 
+        // Sum the outputs
         for (int j = 0; j < dataset().targetsize(); j++)
         {
             _output_p[j] += output_p[j];
@@ -117,7 +117,7 @@ SemiSequentialBackprop::process_sample(Sequence input, double* target_p,
 
 
 SequentialBackprop::SequentialBackprop(
-    BaseNetwork& network, 
+    BaseNetwork& network,
     SupervisedDataset<Sequence, Sequence>& dataset) :
     Backprop<Sequence, Sequence>(network, dataset) {}
 
@@ -125,7 +125,7 @@ SequentialBackprop::SequentialBackprop(
 SequentialBackprop::~SequentialBackprop() {}
 
 
-void 
+void
 SequentialBackprop::process_sample(Sequence input, Sequence target)
 {
     // Process the sequence and save the outputs.
@@ -137,8 +137,8 @@ SequentialBackprop::process_sample(Sequence input, Sequence target)
     // Iterate over the outputs and targets in parallel.
     std::vector<const double*>::const_reverse_iterator output_iter;
     int i = target.length() - 1;
-    for (output_iter = _outputs.rbegin(); 
-         output_iter != _outputs.rend(); 
+    for (output_iter = _outputs.rbegin();
+         output_iter != _outputs.rend();
          output_iter++)
     {
         // Calculate the error for this timestep.
@@ -152,10 +152,10 @@ SequentialBackprop::process_sample(Sequence input, Sequence target)
         i -= 1;
     }
 }
- 
 
-void 
-SequentialBackprop::process_sample(Sequence input, Sequence target, 
+
+void
+SequentialBackprop::process_sample(Sequence input, Sequence target,
                                    Sequence importance)
 {
     // Process the sequence and save the outputs.
@@ -167,7 +167,7 @@ SequentialBackprop::process_sample(Sequence input, Sequence target,
     // Iterate over the outputs and targets in parallel.
     std::vector<const double*>::const_reverse_iterator output_iter;
     int i = target.length() - 1;
-    for (output_iter = _outputs.rbegin(); 
+    for (output_iter = _outputs.rbegin();
          output_iter != _outputs.rend();
          output_iter++)
     {

@@ -27,7 +27,7 @@ class SoftmaxLayer : public Module
         /// Create a new SoftmaxLayer object.
         ///
         SoftmaxLayer(int size);
-        
+
         ///
         /// Destroy the SoftmaxLayer object.
         ///
@@ -48,7 +48,7 @@ inline SoftmaxLayer::SoftmaxLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

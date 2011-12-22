@@ -15,7 +15,7 @@ if sys.platform == 'darwin':
 elif sys.platform == 'linux2':
     libname = 'libarac.so'
     frameworksflags = ''
-    linkflags = '' 
+    linkflags = ''
 else:
     raise SystemExit("Cannot build on %s." % sys.platform)
 
@@ -27,15 +27,15 @@ NUMPYPATH = numpy.distutils.misc_util.get_numpy_include_dirs()
 # First compile and link the library.
 libenv = Environment(LIBS=['m', 'blas'], CPPPATH=CPPPATH, LIBPATH=LIBPATH,
                      SHLIBPREFIX="", CCFLAGS=CCFLAGS)
-library_globs = ['src/cpp/*.cpp', 
-                 'src/cpp/common/*.cpp', 
-                 'src/cpp/utilities/*.cpp', 
-                 'src/cpp/datasets/*.cpp', 
-                 'src/cpp/optimization/*.cpp', 
-                 'src/cpp/optimization/descent/*.cpp', 
-                 'src/cpp/structure/*.cpp',  
-                 'src/cpp/structure/connections/*.cpp',  
-                 'src/cpp/structure/modules/*.cpp',  
+library_globs = ['src/cpp/*.cpp',
+                 'src/cpp/common/*.cpp',
+                 'src/cpp/utilities/*.cpp',
+                 'src/cpp/datasets/*.cpp',
+                 'src/cpp/optimization/*.cpp',
+                 'src/cpp/optimization/descent/*.cpp',
+                 'src/cpp/structure/*.cpp',
+                 'src/cpp/structure/connections/*.cpp',
+                 'src/cpp/structure/modules/*.cpp',
                  'src/cpp/structure/networks/*.cpp',
                  'src/cpp/structure/networks/mdrnns/*.cpp']
 lib = libenv.SharedLibrary(libname, sum([Glob(i) for i in library_globs], []))
@@ -51,10 +51,10 @@ swigenv = Environment(SWIGFLAGS=['-python', '-c++', '-outdir', 'src/python/arac'
                       FRAMEWORKSFLAGS=frameworksflags,
                       LINKFLAGS=linkflags,
                       LIBPATH=LIBPATH,
-                      LDMODULEPREFIX='src/python/arac/_', 
+                      LDMODULEPREFIX='src/python/arac/_',
                       LDMODULESUFFIX = '.so',
                       )
-swig = swigenv.LoadableModule('cppbridge', 
+swig = swigenv.LoadableModule('cppbridge',
                              ['src/swig/cppbridge.i'])
 
 # Declare some dependencies.

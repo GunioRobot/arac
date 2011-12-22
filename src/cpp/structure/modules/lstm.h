@@ -37,22 +37,22 @@ class LstmLayer : public Module
         ///
         LstmLayer(int size);
         virtual ~LstmLayer();
-        
+
         virtual void set_mode(arac::structure::Component::Mode mode);
-        
+
         ///
         /// Return a reference to the state buffer.
         ///
         arac::common::Buffer& state();
         arac::common::Buffer& state_error();
-        
+
 
     protected:
-        
+
         virtual void _forward();
         virtual void _backward();
         virtual void expand();
-        
+
         void fill_internal_state();
         void retrieve_internal_state();
         void fill_internal_input();
@@ -61,7 +61,7 @@ class LstmLayer : public Module
         void retrieve_internal_inerror();
         void fill_internal_state_error();
         void retrieve_internal_state_error();
-        
+
         ///
         /// Since the lstm cell is a special case of the mdlstm cell, the lstm
         /// layer is implemented by wrapping an MdlstmLayer object.
@@ -70,7 +70,7 @@ class LstmLayer : public Module
 
         arac::common::Buffer* _state_p;
         arac::common::Buffer* _state_error_p;
-        
+
 };
 
 inline

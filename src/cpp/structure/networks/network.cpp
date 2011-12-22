@@ -19,7 +19,7 @@ Network::Network() :
 }
 
 
-Network::~Network() 
+Network::~Network()
 {
 }
 
@@ -30,13 +30,13 @@ Network::clear()
 {
     BaseNetwork::clear();
     std::vector<Component*>::iterator comp_iter;
-    for(comp_iter = _components_sorted.begin(); 
+    for(comp_iter = _components_sorted.begin();
         comp_iter != _components_sorted.end();
         ++comp_iter)
     {
         (*comp_iter)->clear();
     }
-    for(comp_iter = _components_rec.begin(); 
+    for(comp_iter = _components_rec.begin();
         comp_iter != _components_rec.end();
         ++comp_iter)
     {
@@ -97,21 +97,21 @@ Network::_forward()
     }
     // First forward recurrent components.
     std::vector<Component*>::iterator comp_iter;
-    for(comp_iter = _components_rec.begin(); 
+    for(comp_iter = _components_rec.begin();
         comp_iter != _components_rec.end();
         ++comp_iter)
     {
         (*comp_iter)->forward();
     }
-    
+
     // Forward the non recurrent components in the right order.
-    for(comp_iter = _components_sorted.begin(); 
+    for(comp_iter = _components_sorted.begin();
         comp_iter != _components_sorted.end();
         ++comp_iter)
     {
         (*comp_iter)->forward();
     }
-    
+
     // Copy outputs into the outputbuffer.
     double* sink_p = output()[timestep()];
     for(mod_iter = _outmodules.begin(); mod_iter != _outmodules.end(); mod_iter++)
@@ -132,8 +132,8 @@ Network::_backward()
     int this_timestep = timestep() - 1;
     std::vector<Module*>::iterator mod_iter;
     double* error_p = outerror()[this_timestep];
-    for(mod_iter = _outmodules.begin(); 
-        mod_iter != _outmodules.end(); 
+    for(mod_iter = _outmodules.begin();
+        mod_iter != _outmodules.end();
         mod_iter++)
     {
         Module* module_p = *mod_iter;
@@ -146,10 +146,10 @@ Network::_backward()
         }
         error_p += size;
     }
-    
+
     // First backward recurrent components.
     std::vector<Component*>::iterator iter;
-    for(iter = _components_rec.begin(); 
+    for(iter = _components_rec.begin();
         iter != _components_rec.end();
         iter++)
     {
@@ -160,10 +160,10 @@ Network::_backward()
         }
         comp_p->backward();
     }
-    
+
     // Backward non recurrent components in reverse topological order.
     std::vector<Component*>::reverse_iterator riter;
-    for(riter = _components_sorted.rbegin(); 
+    for(riter = _components_sorted.rbegin();
         riter != _components_sorted.rend();
         riter++)
     {
@@ -174,7 +174,7 @@ Network::_backward()
         }
         comp_p->backward();
     }
-    
+
     double* inerror_p = inerror()[this_timestep];
     for(mod_iter = _inmodules.begin();
         mod_iter != _inmodules.end();
@@ -182,7 +182,7 @@ Network::_backward()
     {
         Module* module_p = *mod_iter;
         int size = module_p->insize();
-        // No -1 on the timestep, since the modules have been backwarded 
+        // No -1 on the timestep, since the modules have been backwarded
         // already.
         int mod_timestep = module_p->timestep();
         double* source_p = module_p->inerror()[mod_timestep];
@@ -215,9 +215,9 @@ Network::incoming_count(std::map<Module*, int>& count)
         pair<Module*, int> item(mod_iter->first, 0);
         count.insert(item);
     }
-    
+
     std::vector<Connection*>::iterator con_iter;
-    for(con_iter = _connections.begin(); 
+    for(con_iter = _connections.begin();
         con_iter != _connections.end();
         con_iter++)
     {
@@ -242,16 +242,16 @@ Network::sort()
     std::vector<Module*>::iterator mod_iter;
 
     std::vector<Connection*>::iterator con_iter;
-    
+
     // Mapping from nodes to the number of incoming connections.
     std::map<Module*, int> count;
     std::map<Module*, int>::iterator count_iter;
     incoming_count(count);
-    
+
     // Make up a vector of all nodes with no incoming connections.
     std::vector<Module*> roots;
-    for(count_iter = count.begin(); 
-        count_iter != count.end(); 
+    for(count_iter = count.begin();
+        count_iter != count.end();
         count_iter++)
     {
         Module* module_p = count_iter->first;
@@ -268,7 +268,7 @@ Network::sort()
         Module* current = roots.back();
         roots.pop_back();
         sorted.push_back(current);
-        for(con_iter = _outgoing_connections[current].begin(); 
+        for(con_iter = _outgoing_connections[current].begin();
             con_iter != _outgoing_connections[current].end();
             con_iter++)
          {
@@ -284,7 +284,7 @@ Network::sort()
              }
          }
     }
-    
+
     for(count_iter = count.begin(); count_iter != count.end(); count_iter++)
     {
         if (count_iter->second != 0)
@@ -296,7 +296,7 @@ Network::sort()
 
     // Fill the list of sorted components correctly.
     _components_sorted.clear();
-    
+
     // Then fill in the rest in topological order.
     for(mod_iter = sorted.begin(); mod_iter != sorted.end(); mod_iter++)
     {
@@ -315,7 +315,7 @@ Network::sort()
             }
         }
     }
-    
+
     init_buffers();
     _dirty = false;
 }
@@ -327,16 +327,16 @@ Network::init_buffers()
     std::vector<Module*>::iterator mod_iter;
 
     _insize = 0;
-    for(mod_iter = _inmodules.begin(); 
-        mod_iter != _inmodules.end(); 
+    for(mod_iter = _inmodules.begin();
+        mod_iter != _inmodules.end();
         mod_iter++)
     {
         _insize += (*mod_iter)->insize();
     }
-    
+
     _outsize = 0;
-    for(mod_iter = _outmodules.begin(); 
-        mod_iter != _outmodules.end(); 
+    for(mod_iter = _outmodules.begin();
+        mod_iter != _outmodules.end();
         mod_iter++)
     {
         _outsize += (*mod_iter)->outsize();

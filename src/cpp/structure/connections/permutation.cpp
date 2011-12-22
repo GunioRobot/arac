@@ -13,14 +13,14 @@ using arac::structure::modules::Module;
 
 
 PermutationConnection::PermutationConnection(
-    Module* incoming_p, Module* outgoing_p) : 
+    Module* incoming_p, Module* outgoing_p) :
     Connection(incoming_p, outgoing_p)
 {
-    
+
 }
 
 
-PermutationConnection::PermutationConnection(Module* incoming_p, Module* outgoing_p, 
+PermutationConnection::PermutationConnection(Module* incoming_p, Module* outgoing_p,
                                              std::vector<int> permutation) :
     Connection(incoming_p, outgoing_p),
     _permutation(permutation)
@@ -34,7 +34,7 @@ PermutationConnection::PermutationConnection(Module* incoming_p, Module* outgoin
 
 PermutationConnection::~PermutationConnection()
 {
-    
+
 }
 
 
@@ -44,7 +44,7 @@ PermutationConnection::invert()
     std::vector<int> old = permutation();
     std::vector<int>::const_iterator permiter;
     int i = 0;
-    for (permiter = old.begin(), i = 0; 
+    for (permiter = old.begin(), i = 0;
          permiter != old.end();
          permiter++, i++)
     {
@@ -58,7 +58,7 @@ PermutationConnection::forward_process(double* sink_p, const double* source_p)
 {
     std::vector<int>::const_iterator intiter;
     int i;
-    for (intiter = permutation().begin(), i = 0; 
+    for (intiter = permutation().begin(), i = 0;
          intiter != permutation().end();
          intiter++, i++)
     {
@@ -72,7 +72,7 @@ PermutationConnection::backward_process(double* sink_p, const double* source_p)
 {
     std::vector<int>::const_iterator intiter;
     int i;
-    for (intiter = permutation().begin(), i = 0; 
+    for (intiter = permutation().begin(), i = 0;
          intiter != permutation().end();
          intiter++, i++)
     {

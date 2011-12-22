@@ -16,35 +16,35 @@ namespace arac {
 namespace common {
 
 ///
-/// Buffer objects hold pointers to arrays which are serving as 
-/// inputs/outputs/errors/etc. to modules. 
+/// Buffer objects hold pointers to arrays which are serving as
+/// inputs/outputs/errors/etc. to modules.
 ///
 /// A buffer is organized in different rows which are held as a vector of double
-/// pointers. 
-/// A buffer may either "own" its arrays or not own them. In the first case, the 
-/// buffer frees the memory of the arrays on destruction. 
+/// pointers.
+/// A buffer may either "own" its arrays or not own them. In the first case, the
+/// buffer frees the memory of the arrays on destruction.
 ///
 
 class Buffer
 {
     public:
-        
+
         Buffer(size_t rowsize, bool owner=true);
         virtual ~Buffer();
-        
+
         ///
         /// Add the contents at the given pointer to the last buffer row. If an
         /// index is given, the content will be added to that buffer row.
         ///
         void add(double* addend_p, int index=-1);
-        
+
         ///
         /// Append an empty  row to the buffer's contents.
         ///
         void expand();
-        
+
         ///
-        /// Set all the contents to zero. 
+        /// Set all the contents to zero.
         ///
         void clear();
 
@@ -58,9 +58,9 @@ class Buffer
         /// does not own the memory.
         ///
         void free_memory();
-        
+
         ///
-        /// Add the given pointer as a row. Attention: This removes ownership 
+        /// Add the given pointer as a row. Attention: This removes ownership
         /// for all buffers.
         ///
         void append(double* row);
@@ -112,7 +112,7 @@ class Buffer
         bool _contmemory;
 
         // Index that says up to which row the buffer has been used recently. Is
-        // being reset by .clear() and clear_at(). Is updated by append(), 
+        // being reset by .clear() and clear_at(). Is updated by append(),
         // add and operator [].
         // The index is an exclusive upper bound.
         size_t _dirtyindex;
@@ -128,7 +128,7 @@ Buffer::rowsize()
 }
 
 
-inline 
+inline
 void
 Buffer::set_rowsize(size_t value)
 {
@@ -137,13 +137,13 @@ Buffer::set_rowsize(size_t value)
 
 
 inline
-size_t 
+size_t
 Buffer::size()
 {
     return _content.size();
 }
 
-    
+
 inline
 double*
 Buffer::operator[] (size_t index)

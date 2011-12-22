@@ -41,11 +41,11 @@ DoubleGateLayer::_backward()
 
     for (int i = 0; i < size; i++)
     {
-        inerror_p[i] = sigmoidprime(input_p[i]) 
-                       * input_p[i + size] 
+        inerror_p[i] = sigmoidprime(input_p[i])
+                       * input_p[i + size]
                        * outerror_p[i];
         inerror_p[i] -= sigmoidprime(input_p[i])
-                        * input_p[i + size] 
+                        * input_p[i + size]
                         * outerror_p[i + size];
     }
     for(int i = 0; i < size; i++)

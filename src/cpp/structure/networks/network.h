@@ -19,8 +19,8 @@
 namespace arac {
 namespace structure {
 namespace networks {
-    
-    
+
+
 using namespace arac::structure::modules;
 using namespace arac::structure::connections;
 using arac::structure::Component;
@@ -33,8 +33,8 @@ using arac::structure::Parametrized;
 ///
 class Network : public BaseNetwork
 {
-    public: 
-        
+    public:
+
         ///
         /// Different roles that modules can take in a Network object.
         ///
@@ -48,17 +48,17 @@ class Network : public BaseNetwork
             // Combination of InputModule and OutputModule.
             InputOutputModule = 3
         };
-        
+
         ///
         /// Create a new Network object.
         ///
         Network();
-        
+
         ///
         /// Destroy the Network object.
         ///
         virtual ~Network();
-        
+
         ///
         /// Set the buffers of all the modules in the network to zero.
         ///
@@ -68,26 +68,26 @@ class Network : public BaseNetwork
         /// Add a module of the given type to the Network object.
         ///
         void add_module(Module* module_p, ModuleType type=Simple);
-        
+
         ///
         /// Add a connection to the Network object.
         ///
         void add_connection(Connection* con_p);
 
         virtual void sort();
-        
+
     protected:
-        
+
         virtual void _forward();
         virtual void _backward();
-        
+
         void add_component(Component* comp_p);
 
         ///
         /// Fill count with the amount of incoming edges for every module.
         ///
         void incoming_count(std::map<Module*, int>& count);
-        
+
         void init_buffers();
 
         std::vector<Module*> _inmodules;
@@ -98,8 +98,8 @@ class Network : public BaseNetwork
         std::vector<Connection*> _connections;
         std::map<Module*, std::vector<Connection*> > _outgoing_connections;
 };
- 
-    
+
+
 }
 }
 }

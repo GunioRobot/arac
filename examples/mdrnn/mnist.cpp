@@ -22,10 +22,10 @@ SupervisedDataset<double*, double*> make_dataset()
     SupervisedDataset<double*, double*> ds(insize, insize * outsize);
     double* sample_p = new double[insize];
     double* target_p = new double[outsize];
-    
+
     memset(sample_p, 0, sizeof(double) * insize);
     memset(target_p, 0, sizeof(double) * outsize * insize);
-    
+
     ds.append(sample_p, target_p);
     return ds;
 }
@@ -35,15 +35,15 @@ Network make_network()
 {
     int hidden = 5;
     Network net;
-    
+
     Mdrnn<MdlstmLayer>* inlayer_p = new Mdrnn<MdlstmLayer>(2, hidden);
-    
+
     inlayer_p->set_sequence_shape(0, 28);
     inlayer_p->set_sequence_shape(1, 28);
     inlayer_p->set_block_shape(0, 1);
     inlayer_p->set_block_shape(1, 1);
     inlayer_p->sort();
-    
+
     PartialSoftmaxLayer* outlayer_p = \
         new PartialSoftmaxLayer(insize * outsize, outsize);
 
@@ -55,16 +55,16 @@ Network make_network()
               << std::endl;
 
     WeightShareConnection* con_p = new WeightShareConnection(
-                                        inlayer_p, outlayer_p, 
+                                        inlayer_p, outlayer_p,
                                         hidden, outsize);
 
     net.add_module(inlayer_p, Network::InputModule);
     net.add_module(outlayer_p, Network::OutputModule);
 
     net.add_connection(con_p);
-    
+
     net.randomize();
-    
+
     return net;
 }
 

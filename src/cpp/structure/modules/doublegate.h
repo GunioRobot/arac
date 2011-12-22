@@ -29,9 +29,9 @@ class DoubleGateLayer : public Module
         /// Create a new DoubleGateLayer object of the gíven size.
         ///
         DoubleGateLayer(int size);
-        
-        /// 
-        /// Destroy the DoubleGateLayer object. 
+
+        ///
+        /// Destroy the DoubleGateLayer object.
         ///
         virtual ~DoubleGateLayer();
 
@@ -50,7 +50,7 @@ inline DoubleGateLayer::DoubleGateLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

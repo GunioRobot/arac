@@ -28,8 +28,8 @@ class SwitchLayer : public Module
         /// Create a new SwitchLayer object of the gíven size.
         ///
         SwitchLayer(int size);
-        
-        /// 
+
+        ///
         /// Destroy the SwitchLayer object.
         ///
         virtual ~SwitchLayer();
@@ -49,7 +49,7 @@ inline SwitchLayer::SwitchLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

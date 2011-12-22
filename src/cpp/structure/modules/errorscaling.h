@@ -18,7 +18,7 @@ using arac::structure::modules::LinearLayer;
 
 
 ///
-/// A ErrorScalingLayer object is of equal in- and outputsize. It does not 
+/// A ErrorScalingLayer object is of equal in- and outputsize. It does not
 /// transform, the input in any way - but the error is multiplied by constants
 /// determined by a vector during the backward pass.
 ///
@@ -27,7 +27,7 @@ class ErrorScalingLayer : public LinearLayer
 {
     public:
 
-        /// 
+        ///
         /// Create a ErrorScalingLayer object of the given size.
         ///
         ErrorScalingLayer(int size, std::vector<double> scale);
@@ -36,7 +36,7 @@ class ErrorScalingLayer : public LinearLayer
     protected:
 
         virtual void _backward();
-        
+
         std::vector<double> _scale;
 };
 

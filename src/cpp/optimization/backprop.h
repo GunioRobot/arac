@@ -25,8 +25,8 @@ using arac::optimization::descent::StepDescender;
 
 namespace arac {
 namespace optimization {
-    
-    
+
+
 ///
 /// Template class for Backprop optimizers.
 ///
@@ -36,30 +36,30 @@ namespace optimization {
 template<typename SampleType, typename TargetType>
 class Backprop
 {
-    public: 
-        
+    public:
+
         ///
         /// Backprop implementaion specific dataset type on which a network
         /// is to be trained.
         ///
         typedef SupervisedDataset<SampleType, TargetType> DatasetType;
-    
+
         ///
         /// Create a new Backprop optimizer object with which the given network
         /// can be trained on the given dataset.
         ///
         Backprop(BaseNetwork& network, DatasetType& dataset);
-        
+
         ///
         /// Destroy the Backprop object.
         ///
         virtual ~Backprop();
-        
+
         ///
         /// Return a reference to the network of the optimizer.
         ///
         BaseNetwork& network();
-        
+
         ///
         /// Return a reference to the dataset of the optimizer.
         ///
@@ -69,21 +69,21 @@ class Backprop
         /// Return the learningrate of the trainer.
         ///
         double learningrate();
-       
+
         ///
         /// Set the learningrate of the trainer.
         ///
-        void set_learningrate(const double value);        
+        void set_learningrate(const double value);
 
         ///
         /// Return the momentum of the trainer.
         ///
         double momentum();
-       
+
         ///
         /// Set the momentum of the trainer.
         ///
-        void set_momentum(const double value);        
+        void set_momentum(const double value);
 
         ///
         /// Return a pointer to the last error vector.
@@ -94,7 +94,7 @@ class Backprop
         /// Return a pointer to the last loss.
         ///
         double loss();
-       
+
         ///
         /// Pick a random sample from the dataset and perform one step of
         /// backpropagation.
@@ -112,9 +112,9 @@ class Backprop
         /// former is to be implemented by subclasses.
         ///
         void train_stochastic_batch();
-        
+
     protected:
-        
+
         ///
         /// Adapt the parameters of this network.
         ///
@@ -124,36 +124,36 @@ class Backprop
         /// Network to be optimized optimizer.
         ///
         BaseNetwork& _network;
-        
+
         ///
         /// Dataset the network is to be optimized upon.
         ///
         DatasetType& _dataset;
-        
+
         ///
         /// Descender object that is used to follow the gradient.
         ///
         // TODO: this should be of the abstract Descender class.
         StepDescender _descender;
-        
+
         ///
         /// The last error during process_sample.
         ///
         double* _error_p;
-        
+
         ///
         /// Method that processes a sample from the dataset and its target. This
-        /// method has to be implemented for each (SampleType, TargetType) 
+        /// method has to be implemented for each (SampleType, TargetType)
         /// combination.
         ///
         virtual void process_sample(SampleType inpt, TargetType target)  = 0;
-            
+
         ///
-        /// Method that processes a sample from the dataset and its target, 
-        /// additionally scaling the error at the targets according to an 
+        /// Method that processes a sample from the dataset and its target,
+        /// additionally scaling the error at the targets according to an
         /// importance.
-        /// 
-        virtual void process_sample(SampleType inpt, TargetType target, 
+        ///
+        virtual void process_sample(SampleType inpt, TargetType target,
                                     TargetType importance)  = 0;
 
     private:
@@ -164,7 +164,7 @@ class Backprop
 
 
 template<typename SampleType, typename TargetType>
-Backprop<SampleType, TargetType>::Backprop(BaseNetwork& network, 
+Backprop<SampleType, TargetType>::Backprop(BaseNetwork& network,
                                            DatasetType& dataset) :
     _network(network),
     _dataset(dataset),
@@ -199,7 +199,7 @@ Backprop<SampleType, TargetType>::dataset()
 {
     return _dataset;
 }
- 
+
 
 template<typename SampleType, typename TargetType>
 double
@@ -254,7 +254,7 @@ void
 Backprop<SampleType, TargetType>::train_stochastic()
 {
     int index = rand() % dataset().size();
-    
+
     network().clear();
     network().clear_derivatives();
     SampleType sample = dataset()[index].first;
@@ -294,14 +294,14 @@ Backprop<SampleType, TargetType>::train_stochastic_batch()
     }
 
     std::vector<int>::const_iterator index_iter;
-    for (index_iter = indices.begin(); 
+    for (index_iter = indices.begin();
          index_iter != indices.end();
          ++index_iter)
     {
         int index = *index_iter;
         network().clear();
         network().clear_derivatives();
-    
+
         SampleType sample = dataset()[index].first;
         TargetType target = dataset()[index].second;
         if (dataset().has_importance())
@@ -313,7 +313,7 @@ Backprop<SampleType, TargetType>::train_stochastic_batch()
             this->process_sample(sample, target);
         }
         learn();
- 
+
         // Update loss.
         for (int i = 0; i < network().outsize(); ++i)
         {
@@ -324,7 +324,7 @@ Backprop<SampleType, TargetType>::train_stochastic_batch()
 
 
 template<typename SampleType, typename TargetType>
-void 
+void
 Backprop<SampleType, TargetType>::learn()
 {
     _descender.notify();
@@ -337,17 +337,17 @@ Backprop<SampleType, TargetType>::learn()
 
 
 ///
-/// SimpleBackprop optimizers are used to train a feedforward network on a 
+/// SimpleBackprop optimizers are used to train a feedforward network on a
 /// dataset that consists of independet sample and target vectors.
 ///
- 
-class SimpleBackprop : public Backprop<double*, double*> 
+
+class SimpleBackprop : public Backprop<double*, double*>
 {
     public:
-        SimpleBackprop(BaseNetwork& network, 
+        SimpleBackprop(BaseNetwork& network,
                        SupervisedDataset<double*, double*>& dataset);
         ~SimpleBackprop();
-    
+
     protected:
         virtual void process_sample(double* input_p, double* target_p);
         virtual void process_sample(double* input_p, double* target_p,
@@ -356,13 +356,13 @@ class SimpleBackprop : public Backprop<double*, double*>
 
 
 ///
-/// SemiSequentialBackprop optimizers are used to train networks that map 
+/// SemiSequentialBackprop optimizers are used to train networks that map
 /// sequences to vectors.
 ///
 
 class SemiSequentialBackprop : public Backprop<Sequence, double*>
 {
-    
+
     public:
         SemiSequentialBackprop(BaseNetwork& network,
                                SupervisedDataset<Sequence, double*>& dataset);
@@ -385,7 +385,7 @@ class SemiSequentialBackprop : public Backprop<Sequence, double*>
 class SequentialBackprop : public Backprop<Sequence, Sequence>
 {
     public:
-        SequentialBackprop(BaseNetwork& network, 
+        SequentialBackprop(BaseNetwork& network,
                            SupervisedDataset<Sequence, Sequence>& dataset);
         ~SequentialBackprop();
 
@@ -393,13 +393,13 @@ class SequentialBackprop : public Backprop<Sequence, Sequence>
         virtual void process_sample(Sequence input, Sequence target);
         virtual void process_sample(Sequence input, Sequence target,
                                     Sequence importance);
-        
+
     private:
         std::vector<const double*> _outputs;
 
 };
 
- 
+
 }
 }
 

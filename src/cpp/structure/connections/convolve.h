@@ -16,7 +16,7 @@ namespace arac {
 namespace structure {
 namespace connections {
 
-    
+
 using namespace arac::structure::modules;
 using arac::structure::Parametrized;
 
@@ -27,12 +27,12 @@ using arac::structure::Parametrized;
 
 class ConvolveConnection : public Connection, public Parametrized
 {
-    public: 
-   
+    public:
+
         ///
         /// Create a new ConvolveConnection object.
         ///
-        ConvolveConnection(Module* incoming_p, Module* outgoing_p, 
+        ConvolveConnection(Module* incoming_p, Module* outgoing_p,
                               int inchunk, int outchunk);
 
         ///
@@ -41,12 +41,12 @@ class ConvolveConnection : public Connection, public Parametrized
         ///
         ConvolveConnection(Module* incoming_p, Module* outgoing_p,
                        double* parameters_p, double* derivatives_p);
-           
-        ///            
+
+        ///
         /// Destroy the ConvolveConnection object.
         ///
         virtual ~ConvolveConnection();
-        
+
     protected:
         virtual void forward_process(double* sink_p, const double* source_p);
         virtual void backward_process(double* sink_p, const double* source_p);
@@ -54,8 +54,8 @@ class ConvolveConnection : public Connection, public Parametrized
         int _n_chunks;
         int _inchunk;
         int _outchunk;
-};    
-    
+};
+
 }
 }
 }

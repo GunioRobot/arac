@@ -16,24 +16,24 @@ using arac::structure::modules::Module;
 IdentityConnection::IdentityConnection(Module* incoming_p, Module* outgoing_p) :
     Connection(incoming_p, outgoing_p)
 {
-    
+
 }
 
 
 IdentityConnection::IdentityConnection(Module* incoming_p, Module* outgoing_p,
-                                       int incomingstart, int incomingstop, 
+                                       int incomingstart, int incomingstop,
                                        int outgoingstart, int outgoingstop) :
-    Connection(incoming_p, outgoing_p, 
-               incomingstart, incomingstop, 
+    Connection(incoming_p, outgoing_p,
+               incomingstart, incomingstop,
                outgoingstart, outgoingstop)
 {
-    
+
 }
 
 
 IdentityConnection::~IdentityConnection()
 {
-    
+
 }
 
 
@@ -42,7 +42,7 @@ IdentityConnection::forward_process(double* sink_p, const double* source_p)
 {
     int indim = _incomingstop - _incomingstart;
     int outdim = _outgoingstop - _outgoingstart;
-    
+
     int size = (_incomingstop - _incomingstart);
     for(int i = 0; i < size; i++)
     {

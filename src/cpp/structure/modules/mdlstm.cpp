@@ -41,7 +41,7 @@ MdlstmLayer::MdlstmLayer(int timedim, int size) :
 }
 
 
-MdlstmLayer::~MdlstmLayer() 
+MdlstmLayer::~MdlstmLayer()
 {
     delete[] _inter_input_p;
     delete[] _input_state_p;
@@ -94,11 +94,11 @@ MdlstmLayer::_forward()
 {
     clear_intermediates();
     int size = _outsize / 2;
-    
+
     double (*gate_squasher) (double) = sigmoid;
     double (*cell_squasher) (double) = tanh_;
     double (*output_squasher) (double) = tanh_;
-    
+
     // Split the whole input into the right chunks
     double* inputbuffer_p = input()[timestep()];
     int i = 0;
@@ -111,7 +111,7 @@ MdlstmLayer::_forward()
     {
         forget_gate_unsquashed()[timestep()][j] = inputbuffer_p[i];
     }
-    
+
     for (int j = 0; j < size; j++, i++)
     {
         input_squashed()[timestep()][j] = cell_squasher(inputbuffer_p[i]);
@@ -121,14 +121,14 @@ MdlstmLayer::_forward()
     {
         output_gate_unsquashed()[timestep()][j] = inputbuffer_p[i];
     }
-    
+
     for (int j = 0; j < size * _timedim ; j++, i++)
     {
         _input_state_p[j] = inputbuffer_p[i];
     }
-    
+
     // TODO: include peepholes
-    // Change the ingate values with respect to peepholes, if we have peephole 
+    // Change the ingate values with respect to peepholes, if we have peephole
     // weights
     // if (mdlstml_p->peephole_input_weights.contents_p)
     // {
@@ -142,7 +142,7 @@ MdlstmLayer::_forward()
     //         }
     //     }
     // }
-    // 
+    //
     // if (mdlstml_p->peephole_forget_weights.contents_p)
     // {
     //     for (int i = 0; i < size * _timedim; i++)
@@ -151,7 +151,7 @@ MdlstmLayer::_forward()
     //             mdlstml_p->peephole_forget_weights.contents_p[i] * inputstate_p[i];
     //     }
     // }
-    
+
     // Squash the input gates.
     for (int i = 0; i < size; i++)
     {
@@ -165,7 +165,7 @@ MdlstmLayer::_forward()
         forget_gate_squashed()[timestep()][i] = \
             gate_squasher(forget_gate_unsquashed()[timestep()][i]);
     }
-    
+
     // Calculate the current cell state.
     for (int i = 0; i < size; i++)
     {
@@ -181,7 +181,7 @@ MdlstmLayer::_forward()
             int index = size * i + j;
             _output_state_p[j] += \
                 forget_gate_squashed()[timestep()][index] * _input_state_p[index];
-            
+
         }
     }
 
@@ -195,7 +195,7 @@ MdlstmLayer::_forward()
     //             mdlstml_p->peephole_output_weights.contents_p[i] * outputstate_p[i];
     //     }
     // }
-    
+
     // Squash the output gates.
     for (int i = 0; i < size; i++)
     {
@@ -219,7 +219,7 @@ MdlstmLayer::_backward()
     clear_intermediates();
     int size = _outsize / 2;
     int this_timestep = timestep() - 1;
-    
+
     double (*cell_squasher) (double) = tanh_;
     // double (*output_squasher) (double) = tanh_;
     double (*gate_squasher_prime) (double) = sigmoidprime;
@@ -244,7 +244,7 @@ MdlstmLayer::_backward()
 
     // Shortcut
     double* output_error_buffer_p = outerror()[this_timestep];
-    
+
     // Splitting the errorbuffer into two parts.
     for (int i = 0; i < size; i++)
     {
@@ -255,7 +255,7 @@ MdlstmLayer::_backward()
     {
         _output_state_error_p[i] = output_error_buffer_p[i + size];
     }
-    
+
     // Calculate the outgate error.
     for (int i = 0; i < size; i++)
     {
@@ -274,7 +274,7 @@ MdlstmLayer::_backward()
             * tanhprime(outputstate_p[i]);  // FIXME: use func-pointer here.
         _state_error_p[i] += nextstateerror_p[i];
     }
-    
+
     // TODO: integrate peepholes
     // if (mdlstml_p->peephole_output_weights.contents_p)
     // {
@@ -285,7 +285,7 @@ MdlstmLayer::_backward()
     //             * mdlstml_p->peephole_output_weights.contents_p[i];
     //     }
     // }
-    
+
     // Calculate cell errors.
     for (int i = 0; i < size; i++)
     {
@@ -294,7 +294,7 @@ MdlstmLayer::_backward()
             * cell_squasher_prime(_inter_input_p[i]) \
             * _state_error_p[i];
     }
-    
+
     // Calc forget gate errors.
     for (int i = 0; i < _timedim; i++)
     {
@@ -306,7 +306,7 @@ MdlstmLayer::_backward()
                 * _input_state_p[i * size + j];
         }
     }
-    
+
     // FIXME: strangely, tests fail if this loop is removed.
     for (int i = 0; i < size * _timedim; i++)
     {
@@ -319,7 +319,7 @@ MdlstmLayer::_backward()
             * _input_squashed[this_timestep][i] \
             * _state_error_p[i];
     }
-    
+
     // FIXME: strangely, tests fail if this loop is removed.
     for (int i = 0; i < size; i++)
     {
@@ -350,7 +350,7 @@ MdlstmLayer::_backward()
     //         }
     //     }
     // }
-    
+
     for (int i = 0; i < _timedim; i++)
     {
         for (int j = 0; j < size; j++)
@@ -369,12 +369,12 @@ MdlstmLayer::_backward()
             // }
         }
     }
-    
+
     // FIXME: strangely, tests fail if this loop is removed.
     for (int i = 0; i < size * _timedim; i++)
     {
     }
-    
+
     double* inerror_p = inerror()[this_timestep];
     i = 0;
     for (int j = 0; j < size; j++, i++)
@@ -386,7 +386,7 @@ MdlstmLayer::_backward()
     {
         inerror_p[i] = _forget_gate_error_p[j];
     }
-    
+
     for (int j = 0; j < size; j++, i++)
     {
         inerror_p[i] = _input_error_p[j];
@@ -396,7 +396,7 @@ MdlstmLayer::_backward()
     {
         inerror_p[i] = _output_gate_error_p[j];
     }
-    
+
     for (int j = 0; j < size * _timedim ; j++, i++)
     {
         inerror_p[i] = _input_state_error_p[j];

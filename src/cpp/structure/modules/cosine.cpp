@@ -32,10 +32,10 @@ CosineLayer::~CosineLayer()
 void
 CosineLayer::_forward()
 {
-   // Calculate the dot product. 
+   // Calculate the dot product.
    double* input_p = input()[timestep()];
-   double length = cblas_ddot(insize(), 
-                              input_p, 1.0,  
+   double length = cblas_ddot(insize(),
+                              input_p, 1.0,
                               input_p, 1.0);
    length = sqrt(length);
 
@@ -50,10 +50,10 @@ CosineLayer::_forward()
 void
 CosineLayer::_backward()
 {
-    // Calculate the dot product. 
+    // Calculate the dot product.
     double* input_p = input()[timestep() - 1];
-    double dotprod = cblas_ddot(insize(), 
-                                input_p, 1.0,  
+    double dotprod = cblas_ddot(insize(),
+                                input_p, 1.0,
                                 input_p, 1.0);
     double invdotprodroot = 1 / sqrt(dotprod);
     double invdotprodrootcubed = 1 / pow(sqrt(dotprod), 3);
@@ -84,4 +84,4 @@ CosineLayer::expand()
     _intererror_p->expand();
     Module::expand();
 }
-    
+

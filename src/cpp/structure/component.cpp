@@ -7,7 +7,7 @@ namespace arac {
 namespace structure {
 
 
-Component::Component() : 
+Component::Component() :
     _timestep(0),
     _sequencelength(0),
     _mode(Component::Simple)

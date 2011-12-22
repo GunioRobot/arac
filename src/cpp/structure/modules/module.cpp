@@ -11,7 +11,7 @@ using arac::structure::Component;
 using arac::common::Buffer;
 
 
-Module::Module() : 
+Module::Module() :
     _insize(0),
     _outsize(0),
     _input_p(0),
@@ -24,7 +24,7 @@ Module::Module() :
 
 
 
-Module::Module(int insize, int outsize) : 
+Module::Module(int insize, int outsize) :
     _insize(insize),
     _outsize(outsize),
     _input_p(0),
@@ -36,9 +36,9 @@ Module::Module(int insize, int outsize) :
 }
 
 
-Module::~Module() 
+Module::~Module()
 {
-    free_buffers(); 
+    free_buffers();
 }
 
 
@@ -83,7 +83,7 @@ Module::clear()
     {
         _output_p->clear();
     }
-    
+
     if (!error_agnostic())
     {
         if (_inerror_p != 0)
@@ -97,7 +97,7 @@ Module::clear()
     }
 }
 
-void 
+void
 Module::free_buffers()
 {
     if ((_input_p != 0) && (_input_p->owner()))
@@ -105,13 +105,13 @@ Module::free_buffers()
         delete _input_p;
         _input_p = 0;
     }
-    
+
     if ((_output_p != 0) && (_output_p->owner()))
     {
         delete _output_p;
         _output_p = 0;
     }
-    
+
     if (!error_agnostic())
     {
         if ((_inerror_p != 0) && _inerror_p->owner())

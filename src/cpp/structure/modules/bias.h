@@ -18,7 +18,7 @@ using arac::structure::modules::Module;
 
 
 ///
-/// Bias objects are objects that have a constant output of 1.0. 
+/// Bias objects are objects that have a constant output of 1.0.
 ///
 class Bias : public Module
 {
@@ -28,7 +28,7 @@ class Bias : public Module
         /// Create a new Bias object.
         ///
         Bias();
-        
+
         ///
         /// Destroy the Bias object.
         ///
@@ -38,7 +38,7 @@ class Bias : public Module
 
         virtual void _forward();
         virtual void _backward();
-    
+
 };
 
 

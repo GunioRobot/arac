@@ -26,7 +26,7 @@ class LinearLayer : public Module
 {
     public:
 
-        /// 
+        ///
         /// Create a LinearLayer object of the given size.
         ///
         LinearLayer(int size);
@@ -47,7 +47,7 @@ inline LinearLayer::LinearLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

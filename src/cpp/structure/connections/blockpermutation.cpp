@@ -15,7 +15,7 @@ using arac::utilities::block_permutation;
 
 
 BlockPermutationConnection::BlockPermutationConnection(
-    Module* incoming_p, Module* outgoing_p, 
+    Module* incoming_p, Module* outgoing_p,
     std::vector<int> sequence_shape,
     std::vector<int> block_shape) :
     PermutationConnection(incoming_p, outgoing_p)
@@ -30,5 +30,5 @@ BlockPermutationConnection::BlockPermutationConnection(
 
 BlockPermutationConnection::~BlockPermutationConnection()
 {
-    
+
 }

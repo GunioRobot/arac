@@ -16,7 +16,7 @@ namespace networks {
 using arac::structure::networks::BaseNetwork;
 
 
-BaseNetwork::BaseNetwork() : 
+BaseNetwork::BaseNetwork() :
     Module(),
     _dirty(true)
 {
@@ -51,8 +51,8 @@ BaseNetwork::activate(const double* input_p)
         clear();
     }
     // Copy this input into the inputbuffer.
-    memcpy((void*) input()[timestep()], 
-           (void*) input_p, 
+    memcpy((void*) input()[timestep()],
+           (void*) input_p,
            sizeof(double) * _insize);
     forward();
     assert(timestep() > 0);
@@ -71,8 +71,8 @@ BaseNetwork::activate(const double* input_p, double* output_p)
 const double*
 BaseNetwork::back_activate(const double* error_p)
 {
-    memcpy((void*) outerror()[timestep() - 1], 
-           (void*) error_p, 
+    memcpy((void*) outerror()[timestep() - 1],
+           (void*) error_p,
            sizeof(double) * _outsize);
 
     backward();
@@ -98,7 +98,7 @@ BaseNetwork::clear_derivatives()
     {
         (*param_iter)->clear_derivatives();
     }
-    
+
     std::vector<BaseNetwork*>::iterator net_iter;
     for (net_iter = networks().begin();
          net_iter != networks().end();

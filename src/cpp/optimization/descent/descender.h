@@ -13,54 +13,54 @@
 namespace arac {
 namespace optimization {
 namespace descent {
-    
-    
+
+
 ///
-/// Class for performing a gradient descent on Network and Parametrized 
+/// Class for performing a gradient descent on Network and Parametrized
 /// objects.
 ///
-/// The descender watches objects and when .update() is called, inspects the 
+/// The descender watches objects and when .update() is called, inspects the
 /// the objects derivatives, possibly performing an update. (A descender might
 /// decide not to update always.)
-/// 
-    
+///
+
 class Descender
 {
     public:
-    
+
         ///
-        /// Create a Descender object that watches a Network object and the 
+        /// Create a Descender object that watches a Network object and the
         /// contained Network and Parametrized objects.
         ///
         Descender(arac::structure::networks::BaseNetwork& net);
-        
+
         ///
         /// Create a Descender object that watches a Parametrized object.
         ///
         Descender(arac::structure::Parametrized& parametrized);
-        
+
         ///
         /// Destroy the Descender object.
         ///
         virtual ~Descender();
-        
-        /// 
+
+        ///
         /// Return a vector of watched Parametrized objects.
         ///
         std::vector<arac::structure::Parametrized*>& targets();
-        
+
         ///
-        /// Notify the Descender object that the derivatives of the watched 
-        /// objects have changed. If the Descender object performs an update, 
+        /// Notify the Descender object that the derivatives of the watched
+        /// objects have changed. If the Descender object performs an update,
         /// true is returned, otherwise false.
         ///
         /// Must be implemented by subclass.
         virtual bool notify() = 0;
-        
+
     private:
-        
+
         std::vector<arac::structure::Parametrized*> _targets;
-        
+
 };
 
 
@@ -70,8 +70,8 @@ Descender::targets()
 {
     return _targets;
 }
-    
-    
+
+
 } } } // Namespace.
 
 

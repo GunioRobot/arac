@@ -11,11 +11,11 @@ using arac::structure::networks::mdrnns::BaseMdrnn;
 BaseMdrnn::BaseMdrnn(int timedim) :
     _timedim(timedim)
 {
-    
+
 }
 
 
 BaseMdrnn::~BaseMdrnn()
 {
-    
+
 }

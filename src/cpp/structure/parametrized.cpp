@@ -17,7 +17,7 @@ Parametrized::Parametrized() :
     _parameters_p(0),
     _derivatives_p(0)
 {
-    
+
 }
 
 
@@ -34,8 +34,8 @@ _derivatives_owner(true)
 }
 
 
-Parametrized::Parametrized(int size, 
-                           double* parameters_p, 
+Parametrized::Parametrized(int size,
+                           double* parameters_p,
                            double* derivatives_p) :
 _size(size),
 _parameters_p(parameters_p),
@@ -43,8 +43,8 @@ _derivatives_p(derivatives_p),
 _parameters_owner(false),
 _derivatives_owner(false)
 {
-    
-}                         
+
+}
 
 
 Parametrized::~Parametrized() {
@@ -90,8 +90,8 @@ Parametrized::set_parameters(double* parameters_p)
     _parameters_p = parameters_p;
     _parameters_owner = false;
 }
- 
-    
+
+
 double*
 Parametrized::get_derivatives() const
 {

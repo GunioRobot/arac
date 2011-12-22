@@ -13,7 +13,7 @@ using arac::optimization::descent::Descender;
 using arac::optimization::descent::StepDescender;
 
 
-StepDescender::StepDescender(BaseNetwork& network, 
+StepDescender::StepDescender(BaseNetwork& network,
                              double stepratio, double momentum) :
     Descender(network),
     _stepratio(stepratio),
@@ -23,7 +23,7 @@ StepDescender::StepDescender(BaseNetwork& network,
 }
 
 
-StepDescender::StepDescender(Parametrized& parametrized, 
+StepDescender::StepDescender(Parametrized& parametrized,
                              double stepratio, double momentum) :
     Descender(parametrized),
     _stepratio(stepratio),
@@ -43,7 +43,7 @@ StepDescender::init_updatehistory()
 {
     _n_params = 0;
     std::vector<Parametrized*>::iterator param_iter;
-    for (param_iter = targets().begin(); 
+    for (param_iter = targets().begin();
          param_iter != targets().end();
          param_iter++)
     {
@@ -75,6 +75,6 @@ StepDescender::notify()
             // Apply update.
             param.get_parameters()[j] += update;
         }
-    }     
+    }
     return true;
 }

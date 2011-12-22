@@ -13,34 +13,34 @@
 
 namespace arac {
 namespace datasets {
-    
+
 
 ///
-/// SupervisedDataset objects hold pairs of data, each of possibly different 
+/// SupervisedDataset objects hold pairs of data, each of possibly different
 /// types.
 ///
 
 template<typename SampleType, typename TargetType>
 class SupervisedDataset : public UnsupervisedDataset<SampleType>
 {
-    public: 
-    
+    public:
+
         ///
         /// Create a new SupervisedDataset object with the given samplesize and
         /// the given targetsize.
         ///
         SupervisedDataset(int samplesize, int targetsize);
-        
-        /// 
+
+        ///
         /// Destroy the SupervisedDataset object.
         ///
         virtual ~SupervisedDataset();
-        
+
         ///
         /// Return the amount of rows in the dataset.
         ///
         virtual int size();
-        
+
         ///
         /// Return the the size of a target.
         ///
@@ -50,7 +50,7 @@ class SupervisedDataset : public UnsupervisedDataset<SampleType>
         /// Add another row to the dataset.
         ///
         void append(SampleType sample, TargetType target);
-        
+
         ///
         /// Return the (sample, target) pair of the dataset at the given index.
         ///
@@ -61,7 +61,7 @@ class SupervisedDataset : public UnsupervisedDataset<SampleType>
         ///
         bool has_importance();
 
-        /// 
+        ///
         /// Return the importance of a sample/target pair.
         ///
         TargetType importance(int index);
@@ -70,15 +70,15 @@ class SupervisedDataset : public UnsupervisedDataset<SampleType>
         /// Set the importance of a sample/target pair.
         ///
         void set_importance(int index, TargetType importance);
-        
+
     private:
- 
+
         ///
         /// Size of a single target.
         ///
         int _targetsize;
-        
-        /// 
+
+        ///
         /// Vector that holds the (sample, target) pairs.
         ///
         std::vector<std::pair<SampleType, TargetType> > _rows;
@@ -96,20 +96,20 @@ class SupervisedDataset : public UnsupervisedDataset<SampleType>
 
 
 template<typename SampleType, typename TargetType>
-SupervisedDataset<SampleType, TargetType>::SupervisedDataset(int samplesize, 
+SupervisedDataset<SampleType, TargetType>::SupervisedDataset(int samplesize,
                                                              int targetsize) :
     UnsupervisedDataset<SampleType>(samplesize),
     _targetsize(targetsize),
     _has_importance(false)
 {
-    
+
 }
 
 
 template<typename SampleType, typename TargetType>
 SupervisedDataset<SampleType, TargetType>::~SupervisedDataset()
 {
-    
+
 }
 
 
@@ -133,7 +133,7 @@ SupervisedDataset<SampleType, TargetType>::append(
 
 
 template<typename SampleType, typename TargetType>
-std::pair<SampleType, TargetType>& 
+std::pair<SampleType, TargetType>&
 SupervisedDataset<SampleType, TargetType>::operator[](int index)
 {
     assert(index < size());
@@ -161,7 +161,7 @@ SupervisedDataset<SampleType, TargetType>::importance(int index)
 template<typename SampleType, typename TargetType>
 inline
 void
-SupervisedDataset<SampleType, TargetType>::set_importance(int index, 
+SupervisedDataset<SampleType, TargetType>::set_importance(int index,
                                                           TargetType importance)
 {
     _has_importance = true;
@@ -172,7 +172,7 @@ SupervisedDataset<SampleType, TargetType>::set_importance(int index,
 
 template<typename SampleType, typename TargetType>
 inline
-int 
+int
 SupervisedDataset<SampleType, TargetType>::size()
 {
     return _rows.size();

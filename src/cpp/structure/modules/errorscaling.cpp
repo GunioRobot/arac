@@ -17,10 +17,10 @@ ErrorScalingLayer::ErrorScalingLayer(int size, std::vector<double> scale) :
     assert(scale.size() == size);
 }
 
-    
-ErrorScalingLayer::~ErrorScalingLayer() 
+
+ErrorScalingLayer::~ErrorScalingLayer()
 {
-    
+
 }
 
 

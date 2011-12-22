@@ -19,8 +19,8 @@ Descender::Descender(BaseNetwork& network)
     {
         _targets.push_back(*param_iter);
     }
-    
-    
+
+
 }
 
 
@@ -32,5 +32,5 @@ Descender::Descender(Parametrized& parametrized)
 
 Descender::~Descender()
 {
-    
+
 }

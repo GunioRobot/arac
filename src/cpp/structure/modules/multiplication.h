@@ -28,8 +28,8 @@ class MultiplicationLayer : public Module
         /// Create a new MultiplicationLayer object of the gíven size.
         ///
         MultiplicationLayer(int size);
-        
-        /// 
+
+        ///
         /// Destroy the MultiplicationLayer object.
         ///
         virtual ~MultiplicationLayer();
@@ -49,7 +49,7 @@ inline MultiplicationLayer::MultiplicationLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

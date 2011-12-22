@@ -9,7 +9,7 @@ using arac::structure::connections::Connection;
 
 
 Connection::Connection(Module* incoming_p, Module* outgoing_p,
-                       int incomingstart, int incomingstop, 
+                       int incomingstart, int incomingstop,
                        int outgoingstart, int outgoingstop) :
     _incoming_p(incoming_p),
     _outgoing_p(outgoing_p),
@@ -23,7 +23,7 @@ Connection::Connection(Module* incoming_p, Module* outgoing_p,
     assert(_incomingstop <= incoming()->outsize());
     assert(_outgoingstart <= outgoing()->insize());
     assert(_outgoingstop <= outgoing()->insize());
-}                
+}
 
 
 Connection::Connection(Module* incoming_p, Module* outgoing_p) :
@@ -35,13 +35,13 @@ Connection::Connection(Module* incoming_p, Module* outgoing_p) :
     _outgoingstop(outgoing_p->insize()),
     _recurrent(false)
 {
-    
+
 }
 
 
 Connection::~Connection()
 {
-    
+
 }
 
 

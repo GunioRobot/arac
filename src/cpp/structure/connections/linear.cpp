@@ -22,10 +22,10 @@ LinearConnection::LinearConnection(Module* incoming_p, Module* outgoing_p) :
 
 
 LinearConnection::LinearConnection(Module* incoming_p, Module* outgoing_p,
-                               int incomingstart, int incomingstop, 
+                               int incomingstart, int incomingstop,
                                int outgoingstart, int outgoingstop) :
-    Connection(incoming_p, outgoing_p, 
-               incomingstart, incomingstop, 
+    Connection(incoming_p, outgoing_p,
+               incomingstart, incomingstop,
                outgoingstart, outgoingstop),
     Parametrized(incoming_p->insize())
 {
@@ -35,17 +35,17 @@ LinearConnection::LinearConnection(Module* incoming_p, Module* outgoing_p,
 
 LinearConnection::LinearConnection(Module* incoming_p, Module* outgoing_p,
                double* parameters_p, double* derivatives_p,
-               int incomingstart, int incomingstop, 
+               int incomingstart, int incomingstop,
                int outgoingstart, int outgoingstop) :
-    Connection(incoming_p, outgoing_p, 
+    Connection(incoming_p, outgoing_p,
                incomingstart, incomingstop,
                outgoingstart, outgoingstop),
-    Parametrized((incomingstop - incomingstart), parameters_p, derivatives_p)           
+    Parametrized((incomingstop - incomingstart), parameters_p, derivatives_p)
 {
     // TODO: make sure the sizes of the modules and slices are correct.
-}   
+}
 
-            
+
 LinearConnection::~LinearConnection()
 {
     if (parameters_owner())

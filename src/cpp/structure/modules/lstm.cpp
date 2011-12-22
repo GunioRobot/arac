@@ -59,8 +59,8 @@ void
 LstmLayer::fill_internal_input()
 {
     // Copy input into internal MdlstmLayer.
-    memcpy(_mdlstm.input()[timestep()], 
-           input()[timestep()], 
+    memcpy(_mdlstm.input()[timestep()],
+           input()[timestep()],
            insize() * sizeof(double));
 }
 
@@ -73,8 +73,8 @@ LstmLayer::fill_internal_state()
     double* state_p = _mdlstm.input()[timestep()] + insize();
     if (timestep() > 0)
     {
-        memcpy(state_p, 
-               state()[timestep() - 1], 
+        memcpy(state_p,
+               state()[timestep() - 1],
                outsize() * sizeof(double));
     }
     else
@@ -88,8 +88,8 @@ void
 LstmLayer::retrieve_internal_output()
 {
     // Copy information back.
-    memcpy(output()[timestep()], 
-           _mdlstm.output()[timestep()], 
+    memcpy(output()[timestep()],
+           _mdlstm.output()[timestep()],
            outsize() * sizeof(double));
 }
 
@@ -97,7 +97,7 @@ LstmLayer::retrieve_internal_output()
 void
 LstmLayer::retrieve_internal_state()
 {
-    memcpy(state()[timestep()], 
+    memcpy(state()[timestep()],
            _mdlstm.output()[timestep()] + outsize(),
            outsize() * sizeof(double));
 }
@@ -106,7 +106,7 @@ LstmLayer::retrieve_internal_state()
 void
 LstmLayer::fill_internal_outerror()
 {
-    memcpy(_mdlstm.outerror()[timestep() - 1], 
+    memcpy(_mdlstm.outerror()[timestep() - 1],
            outerror()[timestep() - 1],
            outsize() * sizeof(double));
 }
@@ -121,7 +121,7 @@ LstmLayer::fill_internal_state_error()
                0,
                outsize() * sizeof(double));
     }
-    else 
+    else
     {
         assert(timestep() < state_error().size());
         memcpy(_mdlstm.outerror()[timestep() - 1] + outsize(),
@@ -140,7 +140,7 @@ LstmLayer::retrieve_internal_inerror()
 }
 
 
-void 
+void
 LstmLayer::retrieve_internal_state_error()
 {
     memcpy(state_error()[timestep() - 1],

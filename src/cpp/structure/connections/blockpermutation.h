@@ -14,7 +14,7 @@ namespace arac {
 namespace structure {
 namespace connections {
 
-    
+
 using namespace arac::structure::modules;
 
 
@@ -24,22 +24,22 @@ using namespace arac::structure::modules;
 
 class BlockPermutationConnection : public PermutationConnection
 {
-    public: 
-   
+    public:
+
         ///
         /// Create a new PermutationConnection object.
         ///
-        BlockPermutationConnection(Module* incoming_p, Module* outgoing_p, 
+        BlockPermutationConnection(Module* incoming_p, Module* outgoing_p,
                                    std::vector<int> sequence_shape,
                                    std::vector<int> block_shape);
 
-        ///            
+        ///
         /// Destroy the PermutationConnection object.
         ///
         virtual ~BlockPermutationConnection();
-};    
+};
 
-    
+
 }
 }
 }

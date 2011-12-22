@@ -9,7 +9,7 @@ using arac::structure::modules::Bias;
 using arac::structure::Component;
 
 
-Bias::Bias() : 
+Bias::Bias() :
     Module(1, 1)
 {
     set_mode(Component::ErrorAgnostic);

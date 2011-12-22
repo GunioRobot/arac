@@ -19,7 +19,7 @@ SupervisedDataset<double*, double*> make_dataset()
     data_p[0] = 0;
     data_p[1] = 0;
     data_p[2] = 0;
-    
+
     data_p[3] = 0;
     data_p[4] = 1;
     data_p[5] = 1;
@@ -31,12 +31,12 @@ SupervisedDataset<double*, double*> make_dataset()
     data_p[9] = 1;
     data_p[10] = 1;
     data_p[11] = 0;
-    
+
     ds.append(data_p, data_p + 2);
     ds.append(data_p + 3, data_p + 5);
     ds.append(data_p + 6, data_p + 8);
     ds.append(data_p + 9, data_p + 11);
-    
+
     return ds;
 }
 
@@ -51,7 +51,7 @@ Network make_network()
     FullConnection* con1_p = new FullConnection(inlayer_p, hidden_p);
     FullConnection* con2_p = new FullConnection(hidden_p, outlayer_p);
     FullConnection* con3_p = new FullConnection(bias_p, hidden_p);
-    
+
     net.add_module(inlayer_p, Network::InputModule);
     net.add_module(hidden_p);
     net.add_module(bias_p);
@@ -59,9 +59,9 @@ Network make_network()
     net.add_connection(con1_p);
     net.add_connection(con2_p);
     net.add_connection(con3_p);
-    
+
     net.randomize();
-    
+
     return net;
 }
 

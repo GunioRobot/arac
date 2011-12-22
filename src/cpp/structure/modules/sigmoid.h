@@ -24,14 +24,14 @@ class SigmoidLayer : public Module
 {
     public:
 
-        /// 
+        ///
         /// Create a new SigmoidLayer object of the given size.
         ///
         SigmoidLayer(int size);
         virtual ~SigmoidLayer();
 
     protected:
-        
+
         virtual void _forward();
         virtual void _backward();
 };
@@ -45,7 +45,7 @@ inline SigmoidLayer::SigmoidLayer(int size) :
 {
 }
 
-    
+
 }
 }
 }

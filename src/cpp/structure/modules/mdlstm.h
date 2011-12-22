@@ -14,9 +14,9 @@ namespace structure {
 namespace modules {
 
 ///
-/// MdlstmLayer objects implement the MDLSTM algorithm as introduced by Alex 
+/// MdlstmLayer objects implement the MDLSTM algorithm as introduced by Alex
 /// Graves. They are a generalization of the LSTM algorithm and suited for
-/// multidimensional sequences. 
+/// multidimensional sequences.
 ///
 /// MdlstmLayer objects have a special input layout which is outlined below.
 ///
@@ -27,7 +27,7 @@ namespace modules {
 /// Depending on how many "real" inputs the layer is given, there will be
 ///
 ///     I = (3 + 2 * d) * s
-///     
+///
 /// inputs over all, where s is the size (= the "true" input) and d is the
 /// dimensionality of the MDRNN. The input layout is as follows:
 ///
@@ -60,7 +60,7 @@ class MdlstmLayer : public arac::structure::modules::Module
         /// Destroy the MdlstmLayer object.
         ///
         virtual ~MdlstmLayer();
-        
+
         ///
         /// Return a reference to the input_squashed Buffer.
         ///
@@ -97,29 +97,29 @@ class MdlstmLayer : public arac::structure::modules::Module
         arac::common::Buffer& forget_gate_unsquashed();
 
     private:
-        
+
         // Set the intermediate buffers to zero.
         // TODO: find better name.
         void clear_intermediates();
-        
+
         virtual void _forward();
         virtual void _backward();
-        
+
         virtual void expand();
-        
+
         int _timedim;
-        
+
         arac::common::Buffer _input_squashed;
-        
+
         arac::common::Buffer _input_gate_squashed;
         arac::common::Buffer _input_gate_unsquashed;
-        
+
         arac::common::Buffer _output_gate_squashed;
         arac::common::Buffer _output_gate_unsquashed;
-        
+
         arac::common::Buffer _forget_gate_squashed;
         arac::common::Buffer _forget_gate_unsquashed;
-        
+
         // Intermediate buffers.
         double* _inter_input_p;
         double* _output_state_p;
@@ -132,13 +132,13 @@ class MdlstmLayer : public arac::structure::modules::Module
         double* _input_error_p;
         double* _input_state_error_p;
         double* _state_error_p;
-        
+
         double* _outputbuffer_p;
 };
 
 
 inline
-arac::common::Buffer& 
+arac::common::Buffer&
 MdlstmLayer::input_squashed()
 {
     return _input_squashed;
@@ -146,11 +146,11 @@ MdlstmLayer::input_squashed()
 
 
 inline
-arac::common::Buffer& 
+arac::common::Buffer&
 MdlstmLayer::output_gate_squashed()
 {
     return _output_gate_squashed;
-    
+
 }
 
 
@@ -163,7 +163,7 @@ MdlstmLayer::output_gate_unsquashed()
 
 
 inline
-arac::common::Buffer& 
+arac::common::Buffer&
 MdlstmLayer::input_gate_squashed()
 {
     return _input_gate_squashed;
@@ -171,7 +171,7 @@ MdlstmLayer::input_gate_squashed()
 
 
 inline
-arac::common::Buffer& 
+arac::common::Buffer&
 MdlstmLayer::input_gate_unsquashed()
 {
     return _input_gate_unsquashed;
@@ -187,7 +187,7 @@ MdlstmLayer::forget_gate_squashed()
 
 
 inline
-arac::common::Buffer& 
+arac::common::Buffer&
 MdlstmLayer::forget_gate_unsquashed()
 {
     return _forget_gate_unsquashed;

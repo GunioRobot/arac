@@ -14,7 +14,7 @@
 namespace arac {
 namespace common {
 
-    
+
 typedef std::vector<double*> DoublePtrVec;
 
 
